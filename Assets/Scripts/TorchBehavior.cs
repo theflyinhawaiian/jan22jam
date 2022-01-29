@@ -6,9 +6,11 @@ public class TorchBehavior : MonoBehaviour
     public float decayRatePerSecond;
     public float startingIntensity = 2.2f;
 
+    float maxFuel = 1f;
+
     Light2D torch;
 
-    float fuel = 1f;
+    float fuel;
 
     float timeAtLastDecay;
 
@@ -17,6 +19,7 @@ public class TorchBehavior : MonoBehaviour
         torch = GetComponent<Light2D>();
 
         timeAtLastDecay = Time.time;
+        fuel = maxFuel;
     }
 
     void Update()
@@ -37,8 +40,9 @@ public class TorchBehavior : MonoBehaviour
         torch.intensity = startingIntensity * fuel;
     }
 
-    public void Refuel()
-    {
-        fuel = 1f;
-    }
+    public void Refuel() => fuel = 1f;
+
+    public float GetRemainingFuel() => fuel;
+
+    public float GetMaxFuel() => maxFuel;
 }
