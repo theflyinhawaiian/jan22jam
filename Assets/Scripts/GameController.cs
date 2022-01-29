@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -16,7 +13,7 @@ public class GameController : MonoBehaviour
 
         for(int i = numberOfEnemiesToSpawn; i > 0; i--)
         {
-            var spawnDirection = UnityEngine.Random.Range(0, 360);
+            var spawnDirection = Random.Range(0, 360);
             var spawnVector = new Vector2(Mathf.Cos(spawnDirection * Mathf.Deg2Rad), Mathf.Sin(spawnDirection * Mathf.Deg2Rad));
             var enemy = Instantiate(enemyPrefab, hubPos + spawnVector * spawnDistance, Quaternion.identity);
             enemy.GetComponent<EnemyBehavior>().hub = hub;
