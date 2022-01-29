@@ -3,6 +3,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
+    public float maxVelocity = 0.5f;
+    public GunBehavior gun;
+
     protected Rigidbody2D body;
 
     private Vector2 move;
@@ -17,11 +20,16 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+        if (Input.GetButton("Fire1"))
+        {
+            gun.FireBullet();
+        }
     }
 
     void FixedUpdate()
     {
-        body.position = body.position + move;
+        body.position = body.position + (move * maxVelocity);
     }
 
     void OnTriggerEnter2D(Collider2D hit)

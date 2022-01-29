@@ -977,7 +977,6 @@ GameObject:
   - component: {fileID: 618814420}
   - component: {fileID: 618814424}
   - component: {fileID: 618814423}
-  - component: {fileID: 618814425}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -997,6 +996,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24bada2fe50e0d74190c6a91dba00aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxVelocity: 0.5
+  gun: {fileID: 1018368265}
 --- !u!212 &618814421
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1112,20 +1113,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &618814425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618814419}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 473e6a05d3d690b49981b029566807be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 6881040419925321576, guid: 071d07969c1e99c478f2b7ecc5be38f1, type: 3}
-  emitForce: 20
 --- !u!1 &930901529
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,7 +1216,7 @@ GameObject:
   - component: {fileID: 1018368264}
   - component: {fileID: 1018368265}
   m_Layer: 0
-  m_Name: Emitter
+  m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
