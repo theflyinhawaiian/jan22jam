@@ -23,4 +23,17 @@ public class PlayerController : MonoBehaviour
     {
         body.position = body.position + move;
     }
+
+    void OnTriggerEnter2D(Collider2D hit)
+    {
+        if(hit.gameObject.tag == "Campfire")
+        {
+            var torch = GetComponentInChildren<TorchBehavior>();
+
+            if(torch != null)
+            {
+                torch.Refuel();
+            }
+        }
+    }
 }

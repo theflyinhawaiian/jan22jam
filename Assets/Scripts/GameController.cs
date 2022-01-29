@@ -7,9 +7,14 @@ public class GameController : MonoBehaviour
     public float spawnDistance = 15;
     public GameObject enemyPrefab;
 
+    public bool enableSpawning = true;
+
     void Start()
     {
         var hubPos = new Vector2(hub.transform.position.x, hub.transform.position.y);
+
+        if (!enableSpawning)
+            return;
 
         for(int i = numberOfEnemiesToSpawn; i > 0; i--)
         {

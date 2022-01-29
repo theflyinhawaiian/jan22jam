@@ -18,8 +18,6 @@ public class EnemyBehavior : MonoBehaviour
         var diff = transform.position - hub.transform.position;
         var moveDirection = new Vector2(diff.x, diff.y);
 
-        Debug.Log($"move distance: {moveDirection.magnitude}");
-
         body.position = body.position - moveDirection.normalized * maxVelocity;
     }
 }
