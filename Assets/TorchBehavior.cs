@@ -21,6 +21,12 @@ public class TorchBehavior : MonoBehaviour
 
     void Update()
     {
+        if (fuel <= 0)
+        {
+            fuel = 0;
+            return;
+        }
+
         var currentTime = Time.time;
         if(currentTime - timeAtLastDecay >= .1)
         {
@@ -29,11 +35,6 @@ public class TorchBehavior : MonoBehaviour
         }
 
         torch.intensity = startingIntensity * fuel;
-
-        if (fuel <= 0)
-        {
-            Destroy(gameObject);
-        }
     }
 
     public void Refuel()
