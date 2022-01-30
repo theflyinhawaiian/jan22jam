@@ -1,12 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.SceneManagement;
 
-public class HubBehavior : MonoBehaviour, ITargetable
+public class HubController : MonoBehaviour
 {
-    private float spawnBlockingRadius = 30;
-
-    public float GetSpawnBlockingRadius() => spawnBlockingRadius;
-
     private HealthSystem HubHealth;
 
     void Start()
