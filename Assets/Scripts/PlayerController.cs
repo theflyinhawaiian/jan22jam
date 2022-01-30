@@ -1,10 +1,9 @@
+using Assets.Scripts;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     public float maxVelocity = 0.5f;
-    public GunBehavior gun;
 
     protected Rigidbody2D body;
     public Camera cam;
@@ -12,11 +11,21 @@ public class PlayerController : MonoBehaviour
     private Vector2 move;
     private Vector2 mousePos;
 
+    private GunBehavior gun;
+    private TorchPlacementBehavior torchPlacer;
+
+    private PlayerItem activeItem;
+
     // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
         body.isKinematic = true;
+
+        gun = GetComponentInChildren<GunBehavior>();
+        torchPlacer = GetComponentInChildren<TorchPlacementBehavior>();
+
+        activeItem = PlayerItem.Torch;
     }
 
     void Update()
@@ -24,11 +33,32 @@ public class PlayerController : MonoBehaviour
         move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        
-        
+
+
         if (Input.GetButton("Fire1"))
         {
-            gun.FireBullet();
+            ProcessAction(activeItem);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            activeItem = PlayerItem.Weapon;
+        } else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            activeItem = PlayerItem.Torch;
+        }
+    }
+
+    void ProcessAction(PlayerItem item)
+    {
+        switch (item)
+        {
+            case PlayerItem.Weapon:
+                gun.FireBullet();
+                break;
+            case PlayerItem.Torch:
+                torchPlacer.PlaceTorch();
+                break;
         }
     }
 
