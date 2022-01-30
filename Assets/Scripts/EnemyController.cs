@@ -14,7 +14,7 @@ public class EnemyController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         body.isKinematic = true;
 
-        EnemyHealth = new HealthSystem(10);
+        EnemyHealth = new HealthSystem(5);
     }
 
     void FixedUpdate()
