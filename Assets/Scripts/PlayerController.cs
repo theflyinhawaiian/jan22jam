@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,12 +18,14 @@ public class PlayerController : MonoBehaviour
 
     private PlayerItem activeItem;
 
+    public float currentTime = -1000f;
+    public float iframes = .5f;
+
     // Start is called before the first frame update
     void Start()
     {
-        PlayerHealth = new HealthSystem(100);
+        PlayerHealth = new HealthSystem(3);
         body = GetComponent<Rigidbody2D>();
-        body.isKinematic = true;
 
         gun = GetComponentInChildren<GunBehavior>();
         torchPlacer = GetComponentInChildren<TorchPlacementBehavior>();
@@ -85,6 +88,30 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // If the other thing has a specific tag. It's a good idea to limit the detection to specific things
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (iframes + currentTime > Time.time)
+                return;
+            // Destroy this gameobject?
+            PlayerHealth.Damage(1);
+
+            currentTime = Time.time;
+
+            Debug.Log("Health: " + PlayerHealth.GetHealth());
+
+            if (PlayerHealth.GetHealth() == 0)
+            {
+                SceneManager.LoadScene("GameOver");
+            }
+            // Destroy the gameobject this one collided with? Uncomment this next line
+            //Destroy(collision.gameObject);
+        }
+    }
+
 
     public PlayerItem GetSelectedItem() => activeItem;
 }
