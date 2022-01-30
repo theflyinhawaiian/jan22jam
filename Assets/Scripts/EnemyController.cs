@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class EnemyBehavior : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
+    private HealthSystem EnemyHealth;
+
     public GameObject hub;
     public float maxVelocity;
 
@@ -11,6 +13,8 @@ public class EnemyBehavior : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         body.isKinematic = true;
+
+        EnemyHealth = new HealthSystem(10);
     }
 
     void FixedUpdate()

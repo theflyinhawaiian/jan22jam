@@ -13,6 +13,12 @@ public class GameController : MonoBehaviour
     {
         var hubPos = new Vector2(hub.transform.position.x, hub.transform.position.y);
 
+        HealthSystem healthSystem = new HealthSystem(100);
+
+        Debug.Log("Health: " + healthSystem.GetHealth());
+       
+        
+
         if (!enableSpawning)
             return;
 
@@ -21,7 +27,10 @@ public class GameController : MonoBehaviour
             var spawnDirection = Random.Range(0, 360);
             var spawnVector = new Vector2(Mathf.Cos(spawnDirection * Mathf.Deg2Rad), Mathf.Sin(spawnDirection * Mathf.Deg2Rad));
             var enemy = Instantiate(enemyPrefab, hubPos + spawnVector * spawnDistance, Quaternion.identity);
-            enemy.GetComponent<EnemyBehavior>().hub = hub;
+            enemy.GetComponent<EnemyController>().hub = hub;
         }
     }
+
+
+
 }

@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     public float maxVelocity = 0.5f;
 
+    private HealthSystem PlayerHealth;
     protected Rigidbody2D body;
     public Camera cam;
 
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerHealth = new HealthSystem(100);
         body = GetComponent<Rigidbody2D>();
         body.isKinematic = true;
 
