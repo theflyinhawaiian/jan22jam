@@ -52,6 +52,7 @@ public class TorchBehavior : MonoBehaviour, ITargetable
 
     private void OnDestroy()
     {
+        Debug.Log("A torch is dying");
         if(OnDying != null)
             OnDying.Invoke(this);
     }

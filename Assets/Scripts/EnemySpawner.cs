@@ -74,10 +74,12 @@ public class EnemySpawner : MonoBehaviour, ITorchSpawnListener
     public void OnTorchSpawned(ITargetable torch)
     {
         availableTargets.Add(torch);
+        Debug.Log($"Torch Spawned. Number of torches: {availableTargets.Count}");
     }
 
     public void OnTorchDestroyed(ITargetable torch)
     {
         availableTargets.Remove(torch);
+        Debug.Log($"Torch Destroyed. Number of torches: {availableTargets.Count}");
     }
 }
