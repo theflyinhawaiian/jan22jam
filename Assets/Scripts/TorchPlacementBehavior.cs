@@ -18,7 +18,9 @@ public class TorchPlacementBehavior : MonoBehaviour, IItemWithCooldown
         if (currTime - lastPlaceTime < cooldown)
             return;
 
-        Instantiate(torchPrefab, transform.position, transform.rotation);
+        var obj = Instantiate(torchPrefab, transform.position, transform.rotation);
+        var torch = obj.GetComponentInChildren<TorchBehavior>();
+        torch.destroyOnExhaust = true;
 
         lastPlaceTime = currTime;
     }

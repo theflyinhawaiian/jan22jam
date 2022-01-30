@@ -1,10 +1,12 @@
-using UnityEngine;
+ using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 
 public class TorchBehavior : MonoBehaviour
 {
     public float decayRatePerSecond;
     public float startingIntensity = 2.2f;
+    public float startingRadius = 5.5f;
+    public bool destroyOnExhaust = false;
 
     float maxFuel = 1f;
 
@@ -27,6 +29,8 @@ public class TorchBehavior : MonoBehaviour
         if (fuel <= 0)
         {
             fuel = 0;
+            if (destroyOnExhaust)
+                Destroy(transform.parent.gameObject);
             return;
         }
 
@@ -37,6 +41,7 @@ public class TorchBehavior : MonoBehaviour
             timeAtLastDecay = currentTime;
         }
 
+        torch.pointLightOuterRadius = startingRadius * fuel;
         torch.intensity = startingIntensity * fuel;
     }
 
