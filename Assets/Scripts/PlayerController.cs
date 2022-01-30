@@ -2,7 +2,7 @@ using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ITargetable
 {
     public float maxVelocity = 0.5f;
 
@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     public float currentTime = -1000f;
     public float iframes = .5f;
+    private float spawnBlockingRadius = 15;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +49,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             activeItem = PlayerItem.Weapon;
-        } else if (Input.GetKeyDown(KeyCode.Alpha2))
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             activeItem = PlayerItem.Torch;
         }
@@ -78,11 +80,11 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D hit)
     {
-        if(hit.gameObject.tag == "Campfire")
+        if (hit.gameObject.tag == "Campfire")
         {
             var torch = GetComponentInChildren<TorchBehavior>();
 
-            if(torch != null)
+            if (torch != null)
             {
                 torch.Refuel();
             }
@@ -114,4 +116,6 @@ public class PlayerController : MonoBehaviour
 
 
     public PlayerItem GetSelectedItem() => activeItem;
+
+    public float GetSpawnBlockingRadius() => spawnBlockingRadius;
 }

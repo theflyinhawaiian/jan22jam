@@ -1,7 +1,7 @@
  using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 
-public class TorchBehavior : MonoBehaviour
+public class TorchBehavior : MonoBehaviour, ITargetable
 {
     public float decayRatePerSecond;
     public float startingIntensity = 2.2f;
@@ -15,6 +15,11 @@ public class TorchBehavior : MonoBehaviour
     float fuel;
 
     float timeAtLastDecay;
+
+    private float spawnBlockingRadius = 10;
+
+    public delegate void TorchDestroyedHandler(ITargetable torch);
+    public event TorchDestroyedHandler OnDying;
 
     void Start()
     {
@@ -45,9 +50,17 @@ public class TorchBehavior : MonoBehaviour
         torch.intensity = startingIntensity * fuel;
     }
 
+    private void OnDestroy()
+    {
+        if(OnDying != null)
+            OnDying.Invoke(this);
+    }
+
     public void Refuel() => fuel = 1f;
 
     public float GetRemainingFuel() => fuel;
 
     public float GetMaxFuel() => maxFuel;
+
+    public float GetSpawnBlockingRadius() => spawnBlockingRadius;
 }

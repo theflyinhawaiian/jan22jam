@@ -87,6 +87,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decayRatePerSecond: 0.1
   startingIntensity: 2.2
+  startingRadius: 5.5
+  destroyOnExhaust: 0
 --- !u!1 &8026985353598657917
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,7 +113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8026985353598657917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.924532, y: 5.693686, z: -577.6112}
+  m_LocalPosition: {x: -3.924532, y: 5.693686, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1760673281863542882}
