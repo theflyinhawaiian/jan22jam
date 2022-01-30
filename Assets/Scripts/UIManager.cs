@@ -1,25 +1,24 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public Image fill;
     public GameObject player;
 
-    TorchBehavior torch;
-    
+    private PlayerController controller;
     void Start()
     {
-        torch = player.GetComponentInChildren<TorchBehavior>();
+        controller = player.GetComponent<PlayerController>();
     }
 
     void Update()
     {
-        var scale = fill.transform.localScale;
-        var xScale = torch.GetRemainingFuel() / torch.GetMaxFuel();
-
-        var newScale = new Vector3(xScale, scale.y, scale.z);
-
-        fill.transform.localScale = newScale;
+        var itemWindows = GetComponentsInChildren<SelectableItemBehavior>();
+        foreach(var window in itemWindows)
+        {
+            if (window.representedItem != controller.GetSelectedItem())
+                window.Deselect();
+            else
+                window.Select();
+        }
     }
 }

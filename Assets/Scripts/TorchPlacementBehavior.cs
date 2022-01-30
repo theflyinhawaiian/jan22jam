@@ -1,11 +1,16 @@
 using UnityEngine;
+using Assets.Scripts;
 
-public class TorchPlacementBehavior : MonoBehaviour
+public class TorchPlacementBehavior : MonoBehaviour, IItemWithCooldown
 {
     public GameObject torchPrefab;
     public float cooldown = 5;
 
     private float lastPlaceTime = -1000;
+
+    public float GetCooldown() => cooldown;
+
+    public float GetLastUseTime() => lastPlaceTime;
 
     public void PlaceTorch()
     {

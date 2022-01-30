@@ -83,4 +83,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public PlayerItem GetSelectedItem() => activeItem;
 }

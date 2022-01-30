@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts
 {
-    enum PlayerItem
+    public enum PlayerItem
     {
         Weapon,
         Torch
