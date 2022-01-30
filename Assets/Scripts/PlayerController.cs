@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour, ITargetable
 {
     public float maxVelocity = 0.5f;
 
+    public GameObject GameManager;
     public HealthSystem PlayerHealth;
     protected Rigidbody2D body;
     public Camera cam;
@@ -13,8 +14,11 @@ public class PlayerController : MonoBehaviour, ITargetable
     private Vector2 move;
     private Vector2 mousePos;
 
+    private GameManager manager;
     private GunBehavior gun;
     private TorchPlacementBehavior torchPlacer;
+
+    private TorchBehavior torch;
 
     private PlayerItem activeItem;
 
@@ -27,6 +31,8 @@ public class PlayerController : MonoBehaviour, ITargetable
     {
         PlayerHealth = new HealthSystem(3);
         body = GetComponent<Rigidbody2D>();
+        manager = GameManager.GetComponent<GameManager>();
+        torch = GetComponentInChildren<TorchBehavior>();
 
         gun = GetComponentInChildren<GunBehavior>();
         torchPlacer = GetComponentInChildren<TorchPlacementBehavior>();
@@ -40,6 +46,8 @@ public class PlayerController : MonoBehaviour, ITargetable
 
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
 
+        if (InDarkness())
+            SceneManager.LoadScene("GameOver");
 
         if (Input.GetButton("Fire1"))
         {
@@ -54,6 +62,28 @@ public class PlayerController : MonoBehaviour, ITargetable
         {
             activeItem = PlayerItem.Torch;
         }
+    }
+
+    bool InDarkness()
+    {
+        if (torch.GetRemainingFuel() > 0)
+            return false;
+
+        var inDarkness = true;
+        foreach(var target in manager.targets)
+        {
+            if(target.transform != transform || target.GetSpawnBlockingRadius() != spawnBlockingRadius)
+            {
+                var targetPos = new Vector2(target.transform.position.x, target.transform.position.y);
+                var playerPos = new Vector2(transform.position.x, transform.position.y);
+                if (Vector2.Distance(targetPos, playerPos) <= target.GetSpawnBlockingRadius())
+                {
+                    inDarkness = false;
+                }
+            }
+        }
+
+        return inDarkness;
     }
 
     void ProcessAction(PlayerItem item)

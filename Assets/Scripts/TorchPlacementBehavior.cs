@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class TorchPlacementBehavior : MonoBehaviour, IItemWithCooldown, ITorchSpawner
 {
+    public GameObject player;
     public GameObject torchPrefab;
     public float cooldown = 5;
 
     private float lastPlaceTime = -1000;
 
     private List<ITorchSpawnListener> torchSpawnListeners= new List<ITorchSpawnListener>();
+    private TorchBehavior playerTorch;
+
+    void Start()
+    {
+        playerTorch = player.GetComponentInChildren<TorchBehavior>();
+    }
 
     public float GetCooldown() => cooldown;
 
@@ -18,7 +25,7 @@ public class TorchPlacementBehavior : MonoBehaviour, IItemWithCooldown, ITorchSp
     public void PlaceTorch()
     {
         var currTime = Time.time;
-        if (currTime - lastPlaceTime < cooldown)
+        if (currTime - lastPlaceTime < cooldown || playerTorch.GetRemainingFuel() <= 0)
             return;
 
         var obj = Instantiate(torchPrefab, transform.position, transform.rotation);

@@ -1,28 +1,21 @@
-using Assets.Scripts;
 using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour, ITorchSpawnListener
+public class EnemySpawner : MonoBehaviour
 {
     public GameObject hub;
     public Transform player;
     public float spawnDelay = 1f;
     public GameObject enemyPrefab;
 
-    public bool enableSpawning = true;
+    private GameManager manager;
 
-    private List<ITargetable> availableTargets;
+    public bool enableSpawning = true;
 
     void Start()
     {
-        var playerController = player.GetComponent<PlayerController>();
-
-        availableTargets = new List<ITargetable>()
-        {
-            hub.GetComponent<HubBehavior>(),
-            playerController
-        };
+        manager = GetComponent<GameManager>();
 
         if (!enableSpawning)
             return;
@@ -45,20 +38,20 @@ public class EnemySpawner : MonoBehaviour, ITorchSpawnListener
     {
         var validSpawn = false;
         Vector2 spawnPosition = new Vector2();
-        ITargetable selectedTarget = availableTargets[0];
+        ITargetable selectedTarget = manager.targets[0];
         while (!validSpawn)
         {
             validSpawn = true;
 
             //pick a spawn point outside of a random target's radius
-            selectedTarget = availableTargets[Random.Range(0, availableTargets.Count)];
+            selectedTarget = manager.targets[Random.Range(0, manager.targets.Count)];
             var randomTargetPos = new Vector2(selectedTarget.transform.position.x, selectedTarget.transform.position.y);
             var spawnDirection = Random.Range(0, 360);
             var spawnVector = new Vector2(Mathf.Cos(spawnDirection * Mathf.Deg2Rad), Mathf.Sin(spawnDirection * Mathf.Deg2Rad));
             spawnPosition = randomTargetPos + spawnVector * (selectedTarget.GetSpawnBlockingRadius() + 1);
 
             //verify the spawn position is not in the radius of any other target
-            foreach(var target in availableTargets)
+            foreach(var target in manager.targets)
             {
                 var targetPos = new Vector2(target.transform.position.x, target.transform.position.y);
                 if (Vector2.Distance(spawnPosition, targetPos) < target.GetSpawnBlockingRadius())
@@ -69,17 +62,5 @@ public class EnemySpawner : MonoBehaviour, ITorchSpawnListener
         }
 
         return (spawnPosition, selectedTarget);
-    }
-
-    public void OnTorchSpawned(ITargetable torch)
-    {
-        availableTargets.Add(torch);
-        Debug.Log($"Torch Spawned. Number of torches: {availableTargets.Count}");
-    }
-
-    public void OnTorchDestroyed(ITargetable torch)
-    {
-        availableTargets.Remove(torch);
-        Debug.Log($"Torch Destroyed. Number of torches: {availableTargets.Count}");
     }
 }
