@@ -4,9 +4,7 @@ public class EnemyController : MonoBehaviour
 {
     private HealthSystem EnemyHealth;
 
-
-
-    public GameObject hub;
+    public Transform target;
     public float maxVelocity;
 
     private Rigidbody2D body;
@@ -21,7 +19,7 @@ public class EnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        var diff = transform.position - hub.transform.position;
+        var diff = transform.position - target.position;
         var moveDirection = new Vector2(diff.x, diff.y);
 
         body.position = body.position - moveDirection.normalized * maxVelocity;

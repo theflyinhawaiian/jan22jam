@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour, ITargetable
 {
     public float maxVelocity = 0.5f;
 
-    private HealthSystem PlayerHealth;
+    public HealthSystem PlayerHealth;
     protected Rigidbody2D body;
     public Camera cam;
 

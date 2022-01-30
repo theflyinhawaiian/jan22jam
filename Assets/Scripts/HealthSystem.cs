@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class HealthSystem
 {
+    private int maxHealth;
     private int health;
     
     public HealthSystem(int health)
     {
+        this.maxHealth = health;
         this.health = health;
     }
+
+    public int GetMaxHealth() => maxHealth;
 
     public int GetHealth()
     {

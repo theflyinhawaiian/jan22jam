@@ -34,26 +34,28 @@ public class EnemySpawner : MonoBehaviour, ITorchSpawnListener
     {
         while (true)
         {
-            var enemy = Instantiate(enemyPrefab, GetValidSpawnPoint(), Quaternion.identity);
-            enemy.GetComponent<EnemyController>().hub = hub;
+            var tuple = GenerateTargetAndSpawnPoint();
+            var enemy = Instantiate(enemyPrefab, tuple.spawnPoint, Quaternion.identity);
+            enemy.GetComponent<EnemyController>().target = tuple.target.transform;
             yield return new WaitForSeconds(spawnDelay);
         }
     }
 
-    Vector2 GetValidSpawnPoint()
+    (Vector2 spawnPoint, ITargetable target) GenerateTargetAndSpawnPoint()
     {
         var validSpawn = false;
         Vector2 spawnPosition = new Vector2();
+        ITargetable selectedTarget = availableTargets[0];
         while (!validSpawn)
         {
             validSpawn = true;
 
             //pick a spawn point outside of a random target's radius
-            var randomTarget = availableTargets[Random.Range(0, availableTargets.Count)];
-            var randomTargetPos = new Vector2(randomTarget.transform.position.x, randomTarget.transform.position.y);
+            selectedTarget = availableTargets[Random.Range(0, availableTargets.Count)];
+            var randomTargetPos = new Vector2(selectedTarget.transform.position.x, selectedTarget.transform.position.y);
             var spawnDirection = Random.Range(0, 360);
             var spawnVector = new Vector2(Mathf.Cos(spawnDirection * Mathf.Deg2Rad), Mathf.Sin(spawnDirection * Mathf.Deg2Rad));
-            spawnPosition = randomTargetPos + spawnVector * (randomTarget.GetSpawnBlockingRadius() + 1);
+            spawnPosition = randomTargetPos + spawnVector * (selectedTarget.GetSpawnBlockingRadius() + 1);
 
             //verify the spawn position is not in the radius of any other target
             foreach(var target in availableTargets)
@@ -66,7 +68,7 @@ public class EnemySpawner : MonoBehaviour, ITorchSpawnListener
             }
         }
 
-        return spawnPosition;
+        return (spawnPosition, selectedTarget);
     }
 
     public void OnTorchSpawned(ITargetable torch)
