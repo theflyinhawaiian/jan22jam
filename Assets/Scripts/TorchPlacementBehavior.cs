@@ -9,16 +9,11 @@ public class TorchPlacementBehavior : MonoBehaviour, IItemWithCooldown, ITorchSp
 
     private float lastPlaceTime = -1000;
 
-    private List<ITorchSpawnListener> torchSpawnListeners;
+    private List<ITorchSpawnListener> torchSpawnListeners= new List<ITorchSpawnListener>();
 
     public float GetCooldown() => cooldown;
 
     public float GetLastUseTime() => lastPlaceTime;
-
-    void Start()
-    {
-        torchSpawnListeners = new List<ITorchSpawnListener>();
-    }
 
     public void PlaceTorch()
     {
